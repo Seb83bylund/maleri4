@@ -3,22 +3,58 @@ import bild from '../../src/images/painters-8457165_1280.webp';
 import ppp from '../../src/images/istockphoto-1461683093-1024x1024.jpg';
 import ccc from '../../src/images/istockphoto-1466480187-1024x1024.jpg';
 import xxx from '../../src/images/painter-2751666_1280.jpg';
-import målerikalkylator from '../js/main';
+import calculator from '../js/main';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
-const jobType = ['Måla vägg', 'Riva tapet', 'Bredspacklas', 'Tak', 'Fönster', 'Lister'];
-const jobPrice = [100, 100, 100, 100, 100, 100];
-const paintCost = [100, 100, 100, 100, 100, 100];
-const plasterCost = [100, 100, 100, 100, 100, 100];
-const paintBool = [true, true, true, true, true, true];
-const plasterBool = [true, true, true, true, true, true];
+const jobType = ['Kvm vägg som ska målas', 'Kvm tapet som ska rivas', 'Kvm vägg som ska bredspacklas', 'Kvm tak som ska målas', 'Anatl fönster som ska målas', 'Antal meter list som ska målas'];
+const jobPrice = [100, 200, 200, 200, 300, 100];
+const paintCost = [100, 0, 0, 100, 10, 10];
+const plasterCost = [50, 0, 200, 0, 0, 0];
+const paintBool = [true, false, false, true, true, true];
+const plasterBool = [true, false, true, false, false, false];
 
 const jobContent = [jobType, jobPrice, paintCost, plasterCost, paintBool, plasterBool];
 
-let everything = målerikalkylator(jobContent, 0, 3);
+let everything = calculator(jobContent, 0, 3);
 
 console.log(everything);
 
+const calculators = (x, y) => {
+    return x + y;
+};
 
+
+
+function CalcForm () {
+
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
+
+    const [result, setResult] = useState(0);
+
+    const sendEmailRequest = useMutation({
+        mutationFn: async () => await fetch ("localhost:3000(send-email", {
+            body: result
+        })
+    });
+
+    const sendEmail = () => {
+        setResult(calculator(x, y));
+
+        sendEmailRequest.mutate();
+    };
+
+
+    return (
+        <>
+            <input value={x} onChange={(e) => setX(e.target.value)} />
+            <input value={y} onChange={(e) => setY(e.target.value)} />
+            <button onClick={sendEmail}>Calculate</button>
+        </>
+    );
+
+}
 
 
 function Pris () {
@@ -137,42 +173,42 @@ function Pris () {
                             </div>
                             <div className='text-center'>
                                 <label className='text-gray-700 font-bold text-xl px-10 items-center' for="anvandarnamn">
-                                    Ange antalet kvadratmeter vägg som ska målas
+                                    Kvm vägg som ska målas
                                 </label>
                                 <br />
                                 <input className='border rounded w-1/2 py-2 px-3 text-gray-700 mt-5 mb-5' />
                             </div>
                             <div className='text-center'>
                                 <label className='text-gray-700 font-bold text-xl px-10 items-center' for="anvandarnamn">
-                                    Ange antal kvadratmeter vägg där tapet behöver rivas
+                                    Kvm tapet som ska rivas
                                 </label>
                                 <br />
                                 <input className='border rounded w-1/2 py-2 px-3 text-gray-700 mt-5 mb-5' />
                             </div>
                             <div className='text-center'>
                                 <label className='text-gray-700 font-bold text-xl px-10 items-center' for="anvandarnamn">
-                                    Ange hur många kvadratmeter vägg som behöver bredspacklas
+                                    Kvm vägg som ska bredspacklas
                                 </label>
                                 <br />
                                 <input className='border rounded w-1/2 py-2 px-3 text-gray-700 mt-5 mb-5' />
                             </div>
                             <div className='text-center'>
                                 <label className='text-gray-700 font-bold text-xl px-10 items-center' for="anvandarnamn">
-                                    Ange hur många kvadratmeter tak som ska målas
+                                    Kvm tak som ska målas
                                 </label>
                                 <br />
                                 <input className='border rounded w-1/2 py-2 px-3 text-gray-700 mt-5 mb-5' />
                             </div>
                             <div className='text-center'>
                                 <label className='text-gray-700 font-bold text-xl px-10 items-center' for="anvandarnamn">
-                                    Ange hur många fönster som ska målas
+                                    Antal fönster som ska målas
                                 </label>
                                 <br />
                                 <input className='border rounded w-1/2 py-2 px-3 text-gray-700 mt-5 mb-5' />
                             </div>
                             <div className='text-center'>
                                 <label className='text-gray-700 font-bold text-xl px-10 items-center' for="anvandarnamn">
-                                    Ange hur många meter list som ska målas
+                                    Antal meter list som ska målas
                                 </label>
                                 <br />
                                 <input className='border rounded w-1/2 py-2 px-3 text-gray-700 mt-5 mb-5' />
