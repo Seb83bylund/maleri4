@@ -1,4 +1,4 @@
-export default function målerikalkylator(work, jobIndex, amount) {
+export default function calculator(work, jobIndex, amount) {
 
     const cost = work[1][jobIndex] * amount;
     let rotDiscount = 0;
